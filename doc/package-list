@@ -1,0 +1,10 @@
+com.onlymvp.action
+com.onlymvp.dao
+com.onlymvp.dao.impl
+com.onlymvp.dto
+com.onlymvp.entity
+com.onlymvp.interceptor
+com.onlymvp.service
+com.onlymvp.service.impl
+com.onlymvp.tool
+test

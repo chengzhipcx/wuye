@@ -1,0 +1,14 @@
+logs
+target
+.classpath
+.project
+.settings
+.idea/
+*.iml
+rebel*.xml
+classes/
+doc/*.pdb
+out/
+.sass-cache/
+.DS_Store
+node_modules
