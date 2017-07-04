@@ -8,108 +8,94 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<base href="<%=basePath%>">
 <jsp:include page="../common/head.jsp"></jsp:include><!-- 引入js,css -->
-
-<script type="text/javascript">
-
-function doLogin(){
-	var userName = $('#userName').val();
-	var userPwd = $('#userPwd').val();
+<title>管理员登陆界面</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/x-javascript">
 	
-	if(userName == ""){
-		alert("登录名不能为空!");
-		return;
-	}
-	
-	if(userPwd == ""){
-		alert("登录密码不能为空!");
-		return;
-	}
-	
-	
-	var url = '<%=basePath%>admin!login.action';// 登录url
-	var data = {"userName" : userName, "userPwd" : userPwd};// 登录参数
-	$.ajax({
-		url : url,
-		type : 'POST',
-		dataType : 'json',
-		async : false,
-		data : data,
-		success : function(obj){
-			if(obj.messageInfoEntity.status == "OK"){// 登录成功
-				/* window.open("adminIndex!index.action?adminId=" + obj.messageInfoEntity.detail.id);
-				window.close(); */
-				var timestamp = Date.parse(new Date());
-				window.location.href="adminIndex!index.action?adminId=" + obj.messageInfoEntity.detail.id+"&timestamp=" + timestamp;
-			}else{
-				alert(obj.messageInfoEntity.desc);
-			}
-		}
-	});
-}
-
+addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
 </script>
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>管理员登录</title>
+<link href="css/style1.css" rel='stylesheet' type='text/css' />
+<!--webfonts-->
+<!--//webfonts-->
 </head>
 <body>
-	<div class="site-wrapper">
-
-		<div class="site-wrapper-inner">
-
-			<div class="cover-container">
-
-				<div class="masthead clearfix">
-					<div class="inner">
-						<h3 class="masthead-brand">物业管理系统——管理员登录</h3>
-
-					</div>
-
-				</div>
-
-
-				<div class="inner cover">
-					<div class="form-horizontal">
-							<div class="form-group">
-								<label for="userName" class="col-sm-2 control-label">User</label>
-								<div class="col-sm-6">
-									<input type="text" class="form-control text-center"
-										id="userName" name="userName" placeholder="Enter User">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="userPwd" class="col-sm-2 control-label">Password</label>
-								<div class="col-sm-6">
-									<input type="password" class="form-control text-center"
-										id="userPwd" name="userPwd" placeholder="Password">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-6">
-									<button  class="btn btn-default"
-										onclick="doLogin()">Login</button>
-								</div>
-							</div>
-					</div>
-
-
-					<div class="mastfoot">
-						<div class="inner">
-							<p>
-								<a href="http://onlymvp.com">Onlymvp.com</a> by <a
-									target="_blank"
-									href="http://wpa.qq.com/msgrd?v=3&uin=53383633&site=qq&menu=yes">ZH</a>.
-							</p>
-						</div>
-					</div>
-
-				</div>
-
+	<script>
+		$(document).ready(function(c) {
+			$('.close').on('click', function(c) {
+				$('.login-form').fadeOut('slow', function(c) {
+					$('.login-form').remove();
+				});
+			});
+		});
+		
+		function doLogin(){
+			var userName = $('#userName').val();
+			var userPwd = $('#userPwd').val();
+			
+			if(userName == ""){
+				alert("登录名不能为空!");
+				return;
+			}
+			
+			if(userPwd == ""){
+				alert("登录密码不能为空!");
+				return;
+			}
+			
+			
+			var url = '<%=basePath%>admin!login.action';// 登录url
+			var data = {"userName" : userName, "userPwd" : userPwd};// 登录参数
+			$.ajax({
+				url : url,
+				type : 'POST',
+				dataType : 'json',
+				async : false,
+				data : data,
+				success : function(obj){
+					if(obj.messageInfoEntity.status == "OK"){// 登录成功
+						/* window.open("adminIndex!index.action?adminId=" + obj.messageInfoEntity.detail.id);
+						window.close(); */
+						var timestamp = Date.parse(new Date());
+						window.location.href="adminIndex!index.action?adminId=" + obj.messageInfoEntity.detail.id+"&timestamp=" + timestamp;
+					}else{
+						alert(obj.messageInfoEntity.desc);
+					}
+				}
+			});
+		}
+	</script>
+	<!--SIGN UP-->
+	<h1>物业管理系统--管理员登陆界面</h1>
+	<div class="login-form">
+		<div class="close"></div>
+		<div class="head-info">
+			<label class="lbl-1"> </label> <label class="lbl-2"> </label> <label
+				class="lbl-3"> </label>
+		</div>
+		<div class="clear"></div>
+		<div class="avtar">
+			<img src="images/avtar.png" />
+		</div>
+		<form>
+			<input type="text" id="userName" name="userName" class="text" value="用户名"
+				onfocus="this.value = '';"
+				onblur="if (this.value == '') {this.value = 'Username';}">
+			<div class="key">
+				<input type="password" id="userPwd" name="userPwd" value="Password" onfocus="this.value = '';"
+					onblur="if (this.value == '') {this.value = 'Password';}">
 			</div>
-
+		</form>
+		<div class="signin">
+			<input type="submit" onclick="doLogin()" value="登陆">
 		</div>
 	</div>
+	<div class="copy-rights">
+		<p>
+			Copyright &copy; 2017.Company name All rights reserved.<a
+				target="_blank" href="<%=path %>/">前端首页</a>
+		</p>
+	</div>
+
 </body>
 </html>

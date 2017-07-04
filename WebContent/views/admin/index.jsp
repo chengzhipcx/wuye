@@ -127,15 +127,15 @@ Set<MenuInfoEntity> parentMenuSet = menuMap.keySet();
 
 	<div class="easyui-layout" border="false" fit="true">
 		<div region="north" id="general_north" border="false"
-			style="height: 60px; margin-top: 0px; overflow: hidden;">
+			style="height: 60px; margin-top: 0px; overflow: hidden;background:url('<%=path %>/images/timg.jpg') repeat 4px 5px" >
 			<div
 				style="float: right; padding: 20px 0px 0px 0px; font-size: 16px; line-height: 50px;">
 				<label id="lbUserName"
-					style="padding: 0 10px; font-style: normal; color: blue;"></label>欢迎您登录本系统<label
+					style="padding: -100PX 10px; font-style: normal; color: blue;"></label>欢迎您登录本系统<label
 					id="lbUserName"
 					style="padding: 0 10px; font-style: normal; color: blue;"></label>
 				<label><a href="javascript:void(0);" onclick="logout();"
-					style="color: red; text-decoration: none;">[退出系统]</a></label>
+					style="color: red; text-decoration: none;padding: 0 20px;">[退出系统]</a></label>
 			</div>
 		</div>
 		<div region="west" border="true" title="导航菜单" style="width: 220px;">

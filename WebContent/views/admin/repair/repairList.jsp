@@ -238,7 +238,7 @@
 		queryDialog.window('setTitle', '查看详情');
 		
 		
-		$('#detailContent').text(_row.content);
+		$('#detailContent').html(_row.content);
 		
 	}
 

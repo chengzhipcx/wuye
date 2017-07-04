@@ -18,6 +18,7 @@ public class UserAndPropertyAndChargeInfoEntity {
 	private String realName;
 	private String address;
 	private String phone;
+	private String status;
 
 	public Integer getChargeInfoId() {
 		return chargeInfoId;
@@ -99,12 +100,21 @@ public class UserAndPropertyAndChargeInfoEntity {
 		this.phone = phone;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "UserAndPropertyAndChargeInfoEntity [chargeInfoId=" + chargeInfoId + ", propertyId=" + propertyId
 				+ ", userId=" + userId + ", chargeType=" + chargeType + ", payment=" + payment + ", remark=" + remark
 				+ ", createTime=" + createTime + ", realName=" + realName + ", address=" + address + ", phone=" + phone
-				+ "]";
+				+ ", status=" + status + "]";
 	}
+
 
 }

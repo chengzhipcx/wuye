@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,14 +36,12 @@ public class UserInfoDAOImpl extends MyHibernateDaoSupport implements UserInfoDA
 	@Override
 	public boolean update(UserInfoEntity t) throws Exception {
 
-		HibernateTemplate hibernateTemplate = this.getHibernateTemplate();
-
-		String hql = "UPDATE UserInfoEntity SET realName = ?, idCard = ?, phone = ?, userPwd = ? WHERE id = ?";
-
-		int res = hibernateTemplate.bulkUpdate(hql, t.getRealName(), t.getIdCard(), t.getPhone(), t.getUserPwd(),
-				t.getId());
-
-		return res > 0 ? true : false;
+		Session session = this.getSession();
+		Transaction beginTransaction = session.beginTransaction();
+		session.update(t);
+		beginTransaction.commit();
+		session.close();
+		return true;
 	}
 
 	@Override

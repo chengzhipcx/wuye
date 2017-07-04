@@ -67,6 +67,16 @@
 										align : 'center'
 									},
 									{
+										title : 'QQ',
+										field : 'qq',
+										align : 'center'
+									},
+									{
+										title : 'email',
+										field : 'email',
+										align : 'center'
+									},
+									{
 										title : '创建时间',
 										field : 'createTime',
 										align : 'center',
@@ -92,18 +102,40 @@
 											return edit + queryProperty;
 
 										}
-									} ] ],
+									},
+									{
+										title : 'qq通知',
+										field : 'OP1',
+										align : 'center',
+										formatter : function(value, row, index) {
+
+											var edit = '<a href="tencent://message/?uin='+row.qq+'&amp;Site=有事Q我&amp;Menu=yes" class="soc-icon icon-qq"><img style="border:0px;" src="<%=path%>/images/pa.gif"></a>';
+
+											return edit ;
+
+										}
+									},
+									{
+										title : 'email通知',
+										field : 'OP2',
+										align : 'center',
+										formatter : function(value, row, index) {
+											var _rows = tabInfoCol.datagrid("getRows");
+											var _row = _rows[index];
+											var edit = '<a href="mailto:'
+												+ _row.email
+												+ '">发送email</a>';
+
+											return edit ;
+
+										}
+									}
+									] ],
 							toolbar : [ '-', {
 								iconCls : 'icon-cancel',
 								text : '删除',
 								handler : function() {
 									remove();
-								}
-							},{
-								iconCls : 'icon-add',
-								text : '添加',
-								handler : function() {
-									add();
 								}
 							},'-' ]
 
@@ -204,6 +236,33 @@
 		//loadingMessage: '正在加载数据，请稍等片刻......'
 		});//查询房产信息窗口结束
 
+		//发送邮件窗口
+		sendmailDialog = $('#sendmailDialog').dialog({
+			title : '发送邮件',
+			width : 500,
+			height : 300,
+			buttons : [ {
+				text : '确认发送',
+				handler : function() {
+					tosendmail();
+				} //保存
+			}, {
+				text : '关闭',
+				handler : function() {
+					editDialog.window('close');
+				} //关闭
+			} ],
+			//href: '',
+			modal : true,
+			minimizable : false,
+			maximizable : false,
+			shadow : false,
+			cache : false,
+			closed : true, //打开或关闭
+			collapsible : false,
+			resizable : false
+		//loadingMessage: '正在加载数据，请稍等片刻......'
+		});//发送邮件窗口结束
 	});
 
 	function queryPropertyInfo(index) {
@@ -214,7 +273,6 @@
 
 		console.log(propertyId);
 		
-		// TODO 设置数据
 		
 		$.ajax({
 			url : 'property!queryById.action',
@@ -256,10 +314,45 @@
 
 		editDialog.window('open');
 		editDialog.window("setTitle", "修改业主信息");
-		$('editFm').form('clear');
+//		$('editFm').form('clear');
 
 	}
+	// TODO  发送邮件
+	function sendemail(index){
+		var _rows = tabInfoCol.datagrid("getRows");
+		var _row = _rows[index];
+		var _email = _row.email;// 房产ID
+		$('#tomail').val(_email);
+		sendmailDialog.window('open');
+		sendmailDialog.window('setTitle', '输入要发送的消息');
+		$('sendmailFm').form('clear');
+	}
+	function tosendmail() {
+		var tomail = $('#tomail').val();
+		var content = $('#mailcontent').val();
+		if (tomail == "") {
+			$.messager.alert('我的消息', "邮箱地址不能为空", 'info');
+			return;
+		}
+		if (content == "") {
+			$.messager.alert('我的消息', "内容不能为空", 'info');
+			return;
+		}
 
+		$('#sendmailFm').form('submit', {
+			url : 'user!sendMail.action',
+			success : function(data) {
+				var _data = $.parseJSON(data);
+				if (_data.status == "OK") {
+					$.messager.alert('我的消息', _data.desc, 'info');
+					tabInfoCol.datagrid("reload");
+				} else {
+					$.messager.alert('我的消息', _data.desc, 'info');
+				}
+				editDialog.window('close');
+			}
+		});
+	}
 	function update() {
 		var realName = $('#editRealName').val();
 		var idCard = $('#editIdCard').val();
@@ -453,6 +546,7 @@
 				<label>登录密码：</label> <input id="editUserPwd" type="password"
 					name="userPwd">
 			</div>
+			
 		</form>
 	</div>
 
@@ -480,8 +574,13 @@
 			<div class="fitem">
 				<label>登录密码：</label> <input id="editUserPwd" type="password"
 					name="userPwd">
+			</div><br>
+			<div class="fitem">
+				<label>QQ：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input id="qq" type="text" name="qq">
+			</div><br>
+			<div class="fitem">
+				<label>email：&nbsp;&nbsp;&nbsp;&nbsp;</label> <input id="email" type="text" name="email">
 			</div>
-
 
 		</form>
 	</div>
@@ -504,5 +603,18 @@
 		</div>
 	</div>
 
+	<div id="sendmailDialog" class="easyui-dialog"
+		style="width: 600px; height: 280px; padding: 10px 20px" closed="true"
+		buttons="#dlg-buttons">
+		<form id="sendmailFm" method="post">
+		<div class="fitem">
+			<label>接收邮箱：</label> <input id="tomail" type="text" name="tomail" >
+		</div>
+		<br />
+		<div class="fitem">
+			<label>邮件内容：</label> <textarea rows="5" cols="40" name="mailcontent" id="mailcontent"></textarea>
+		</div>
+		</form>
+	</div>
 </body>
 </html>

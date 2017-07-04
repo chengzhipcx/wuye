@@ -24,6 +24,8 @@ public class UserInfoEntity {
 	private String idCard;
 	private Integer delStatus;
 	private String createTime;
+	private String qq;
+	private String email;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -98,12 +100,31 @@ public class UserInfoEntity {
 	public void setPropertyId(Integer propertyId) {
 		this.propertyId = propertyId;
 	}
+	
+
+	public String getQq() {
+		return qq;
+	}
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Override
 	public String toString() {
 		return "UserInfoEntity [id=" + id + ", propertyId=" + propertyId + ", userName=" + userName + ", userPwd="
 				+ userPwd + ", realName=" + realName + ", phone=" + phone + ", idCard=" + idCard + ", delStatus="
-				+ delStatus + ", createTime=" + createTime + "]";
+				+ delStatus + ", createTime=" + createTime + ", qq=" + qq + ", email=" + email + "]";
 	}
+
+
 
 }

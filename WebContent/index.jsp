@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Real Site a Real Estate Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
+<title>小区客房管理系统前端登陆</title>
 <!-- for-mobile-apps -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -127,11 +127,11 @@ function doLogin(){
 		<div class="container">
 			<div class="profile-left wow flipInY" data-wow-duration="1.5s" data-wow-delay="0s">
 					<div align="center" class="login">
-					<input type="text" class="form-control text-center"	id="userName" name="userName" placeholder="Enter User">
+					<input type="text" class="form-control text-center"	id="userName" name="userName" placeholder="请输入用户名">
 					<br><br>
-					<input type="password" class="form-control text-center" id="userPwd" name="userPwd" placeholder="Password">
+					<input type="password" class="form-control text-center" id="userPwd" name="userPwd" placeholder="请输入密码">
 					<br><br>
-					<button  class="btn btn-default" onclick="doLogin()">Login</button>
+					<button  class="btn btn-default" onclick="doLogin()">点击登陆</button>
 					</div>
 			</div>
 		</div>
@@ -142,13 +142,13 @@ function doLogin(){
 	<div class="container">
 		<!-- <div class="foo-arr text-center"><img src="images/arrows.png" alt=" "/></div> -->
 		<div class="col-md-4 footer-left">
-			<i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i><p>123K Avenue, 5th Street, <span>New York City</span></p>
+			<i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i><p>山东省济南市长清区<span>大学路3501号</span></p>
 		</div>
 		<div class="col-md-4 footer-left">
 			<i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><p><a href="mailto:example@mail.com">mail@example1.com</a><span><a href="mailto:example@mail.com">mail@example2.com</a></span></p>
 		</div>
 		<div class="col-md-4 footer-left">
-			<i class="glyphicon glyphicon-earphone" aria-hidden="true"></i><p>+123 2222 222<span>+123 456 7890</span></p>
+			<i class="glyphicon glyphicon-earphone" aria-hidden="true"></i><p>+123 2222 222<span>+123 456 7890</span><a href="<%=path %>/adminIndex!index.action"><span>进入后台系统</span></a></p>
 		</div>
 		<div class="clearfix"></div>
 		<div class="copyrights w3">

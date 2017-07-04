@@ -27,7 +27,9 @@ import com.opensymphony.xwork2.ModelDriven;
  *
  */
 @ParentPackage(value = "json-default")
-@Action(value = "charge", results = { @Result(name = "success", type = "json") })
+@Action(value = "charge", results = { @Result(name = "success", type = "json") ,
+		@Result(name = "shouye",  location = "/views/user/index.jsp")
+})
 public class ChargeInfoAction extends ActionSupport implements ModelDriven<UserAndPropertyAndChargeInfoEntity> {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -41,12 +43,15 @@ public class ChargeInfoAction extends ActionSupport implements ModelDriven<UserA
 	@Resource
 	private ChargeInfoService chargeInfoService;
 
+	
 	@Override
 	public UserAndPropertyAndChargeInfoEntity getModel() {
 		return model;
 	}
 
 	// -------SET AND GET --------
+	
+	
 	public String getIds() {
 		return ids;
 	}
@@ -133,6 +138,30 @@ public class ChargeInfoAction extends ActionSupport implements ModelDriven<UserA
 		return null;
 	}
 
+	/**
+	 * 更新缴费信息
+	 * 
+	 * @return
+	 */
+	public String updateStatus() {
+
+		MessageInfoEntity messageInfoEntity = new MessageInfoEntity();
+
+		try {
+			ChargeInfoEntity queryById = chargeInfoService.queryById(model.getChargeInfoId());
+			queryById.setStatus("1");
+			this.chargeInfoService.update(queryById);
+			messageInfoEntity.setStatus(Const.RETURN_STATUS_OK);
+			messageInfoEntity.setDesc("更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			messageInfoEntity.setStatus(Const.RETURN_STATUS_FAIL);
+			messageInfoEntity.setDesc("更新失败");
+		}
+
+
+		return "shouye";
+	}
 	/**
 	 * 批量删除
 	 * 

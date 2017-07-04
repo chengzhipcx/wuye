@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -48,11 +49,10 @@ public class AdminInfoDAOImpl extends MyHibernateDaoSupport implements AdminInfo
 	public boolean update(AdminInfoEntity t) throws Exception {
 
 		Session session = this.getSession();
-
+		Transaction beginTransaction = session.beginTransaction();
 		session.update(t);
-
+		beginTransaction.commit();
 		session.close();
-		
 		return true;
 	}
 

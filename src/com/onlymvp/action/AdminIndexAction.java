@@ -34,6 +34,8 @@ import com.opensymphony.xwork2.ActionSupport;
 		@Result(name = "userList", location = "/views/admin/user/userList.jsp"),
 		@Result(name = "chargeList", location = "/views/admin/charge/chargeList.jsp"),
 		@Result(name = "repairList", location = "/views/admin/repair/repairList.jsp"),
+		@Result(name = "dosageList", location = "/views/admin/dosage/dosageList.jsp"),
+		@Result(name = "chargeTypeList", location = "/views/admin/charge/chargeTypeList.jsp"),
 		@Result(name = "complainList", location = "/views/admin/complain/complainList.jsp") })
 public class AdminIndexAction extends ActionSupport implements ServletRequestAware {
 
@@ -129,6 +131,22 @@ public class AdminIndexAction extends ActionSupport implements ServletRequestAwa
 		return "userList";
 	}
 
+	/**
+	 * @return 用量列表页
+	 */
+	public String dosageList() {
+
+		return "dosageList";
+	}
+	
+	/**
+	 * @return 收费类型页
+	 */
+	public String chargeTypeList() {
+
+		return "chargeTypeList";
+	}
+	
 	/**
 	 * @return 普通管理员管理主页
 	 * @throws Exception

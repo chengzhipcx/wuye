@@ -291,8 +291,14 @@
 			$.messager.alert('我的消息', "身份证号不能为空", 'info');
 			return;
 		}
-		
-		
+		if($('#qq').val() == ''){
+			$.messager.alert('我的消息', "qq不能为空", 'info');
+			return;
+		}
+		if($('#email').val() == ''){
+			$.messager.alert('我的消息', "email不能为空", 'info');
+			return;
+		}
 		$('#buyFm').form('submit', {
 			url : 'user!save.action',
 			success : function(data){
@@ -527,7 +533,7 @@
 
 
 	<div id="buyDialog" class="easyui-dialog"
-		style="width: 600px; height: 280px; padding: 10px 20px" closed="true"
+		style="width: 600px; height: 480px; padding: 10px 20px" closed="true"
 		buttons="#dlg-buttons">
 		<form id="buyFm" method="post">
 			<!-- propertyId隐藏域 -->
@@ -551,9 +557,14 @@
 			<br />
 			<div class="fitem">
 				<label>身份证号：&nbsp;&nbsp;&nbsp;&nbsp;</label> <input id="idCard" type="text" name="idCard">
+			</div><br>
+			<div class="fitem">
+				<label>QQ：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input id="qq" type="text" name="qq">
+			</div><br>
+			<div class="fitem">
+				<label>email：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> <input id="email" type="text" name="email">
 			</div>
-
-
+			<br>
 		</form>
 	</div>
 

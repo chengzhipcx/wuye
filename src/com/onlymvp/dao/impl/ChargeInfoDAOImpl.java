@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +34,12 @@ public class ChargeInfoDAOImpl extends MyHibernateDaoSupport implements ChargeIn
 
 	@Override
 	public boolean update(ChargeInfoEntity t) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		Session session = this.getSession();
+		Transaction beginTransaction = session.beginTransaction();
+		session.update(t);
+		beginTransaction.commit();
+		session.close();
+		return true;
 	}
 
 	@Override
@@ -103,7 +108,7 @@ public class ChargeInfoDAOImpl extends MyHibernateDaoSupport implements ChargeIn
 			sb.append(" AND A.chargeType = " + chargeType);
 
 		String hql = "SELECT A.id, A.propertyId, A.userId, A.chargeType, A.payment, "
-				+ "A.remark, A.createTime, B.address, C.realName,  C.phone "
+				+ "A.remark, A.createTime, B.address, C.realName,  C.phone ,A.status "
 				+ "FROM ChargeInfoEntity AS A, PropertyInfoEntity AS B, UserInfoEntity AS C "
 				+ "WHERE A.propertyId = B.id AND A.userId = C.id " + sb.toString()
 				+ " ORDER BY A.chargeType, A.id DESC";
@@ -129,6 +134,7 @@ public class ChargeInfoDAOImpl extends MyHibernateDaoSupport implements ChargeIn
 				upc.setAddress((String) t[7]);
 				upc.setRealName((String) t[8]);
 				upc.setPhone((String) t[9]);
+				upc.setStatus((String)t[10]);
 				resList.add(upc);
 			}
 		}

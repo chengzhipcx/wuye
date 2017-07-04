@@ -24,6 +24,7 @@ public class ChargeInfoEntity {
 	private String remark;
 	private Integer delStatus;
 	private String createTime;
+	private String status;//是否已经缴费 0是未缴费 1是已交费的
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,12 +91,23 @@ public class ChargeInfoEntity {
 	public void setDelStatus(Integer delStatus) {
 		this.delStatus = delStatus;
 	}
+	
+	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
 		return "ChargeInfoEntity [id=" + id + ", propertyId=" + propertyId + ", userId=" + userId + ", chargeType="
 				+ chargeType + ", payment=" + payment + ", remark=" + remark + ", delStatus=" + delStatus
-				+ ", createTime=" + createTime + "]";
+				+ ", createTime=" + createTime + ", status=" + status + "]";
 	}
+
 
 }

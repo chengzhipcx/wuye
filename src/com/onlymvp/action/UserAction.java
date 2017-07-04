@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.naming.factory.SendMailFactory;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -18,7 +19,9 @@ import com.onlymvp.entity.MessageInfoEntity;
 import com.onlymvp.entity.UserInfoEntity;
 import com.onlymvp.service.UserInfoService;
 import com.onlymvp.tool.Const;
+import com.onlymvp.tool.MailUtils;
 import com.onlymvp.tool.OutTool;
+import com.onlymvp.tool.SendMail;
 import com.onlymvp.tool.StringTool;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -30,7 +33,8 @@ import com.opensymphony.xwork2.ModelDriven;
  *
  */
 @ParentPackage(value = "json-default")
-@Action(value = "user", results = { @Result(name = "success", type = "json") })
+@Action(value = "user", results = { @Result(name = "success", type = "json"),
+				@Result(name="userLogin",location="/index.jsp") })
 public class UserAction extends ActionSupport implements ModelDriven<UserInfoEntity>, ServletRequestAware {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -44,6 +48,9 @@ public class UserAction extends ActionSupport implements ModelDriven<UserInfoEnt
 	private String number;// 每页展示条数
 	private String page;// 当前页数
 	private String ids;// 批量删除的id数组,自行用","分割
+	
+	private String tomail;//目标邮箱地址
+	private String mailcontent;//邮件的内容
 
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
@@ -57,8 +64,19 @@ public class UserAction extends ActionSupport implements ModelDriven<UserInfoEnt
 	}
 
 	// ------ SET AND GET ------
+	
+	
 	public String getNumber() {
 		return number;
+	}
+
+
+	public String getMailcontent() {
+		return mailcontent;
+	}
+
+	public void setMailcontent(String mailcontent) {
+		this.mailcontent = mailcontent;
 	}
 
 	public void setNumber(String number) {
@@ -182,7 +200,14 @@ public class UserAction extends ActionSupport implements ModelDriven<UserInfoEnt
 		MessageInfoEntity messageInfoEntity = new MessageInfoEntity();
 
 		try {
-			this.userInfoService.update(model);
+			UserInfoEntity queryById = this.userInfoService.queryById(model.getId());
+			queryById.setEmail(model.getEmail());
+			queryById.setIdCard(model.getIdCard());
+			queryById.setPhone(model.getPhone());
+			queryById.setQq(model.getQq());
+			queryById.setRealName(model.getRealName());
+			queryById.setUserPwd(model.getUserPwd());
+			this.userInfoService.update(queryById);
 
 			messageInfoEntity.setStatus(Const.RETURN_STATUS_OK);
 
@@ -260,5 +285,16 @@ public class UserAction extends ActionSupport implements ModelDriven<UserInfoEnt
 
 		return null;
 	}
-
+	
+	public String logout() {
+		this.request.getSession().setAttribute(Const.SESSION_USER_BEAN, null);
+		return "userLogin";
+	}
+	
+	public String sendMail(){
+		MessageInfoEntity messageInfoEntity = new MessageInfoEntity();
+		SendMail.simpleEmail(this.tomail,"缴费通知", this.mailcontent);
+		messageInfoEntity.setStatus(Const.RETURN_STATUS_OK);
+		return null;
+	}
 }

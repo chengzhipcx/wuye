@@ -103,6 +103,20 @@
 										align : 'center'
 									},
 									{
+										title : '缴费状态',
+										field : 'status',
+										align : 'center',
+										formatter : function(value, row, index) {
+											var desc = '';
+											if(value=='1'){
+												desc='已缴费';
+											}else{
+												desc='未缴费';
+											}
+											return desc;
+										}
+									},
+									{
 										title : '创建时间',
 										field : 'createTime',
 										align : 'center',
@@ -124,7 +138,19 @@
 											return edit;
 
 										}
-									} ] ],
+									},
+									{
+										title : '短信通知',
+										field : 'OP2',
+										align : 'center',
+										formatter : function(value, row, index) {
+											var edit = '<a href="javascript:void(0);" onclick="sendMessage('
+												+ index
+												+ ')" style="color:#0000FF">发送短信</a>';
+											return edit ;
+										}
+									} 
+									] ],
 							toolbar : [ '-', {
 								iconCls : 'icon-add',
 								text : '缴费',
@@ -287,7 +313,9 @@
 		addDialog.window('setTitle', '新增缴费');
 		$('addFm').form('clear');
 	}
-
+	function sendMessage(index){
+		alert("已经向用户发送消息！");
+	}
 	function save() {
 		
 		if($('#addPropertyId').val() == '' || $('#addUserId').val() == '' || $('#addUserName').val() == ''){
@@ -482,6 +510,7 @@
 			<br />
 			<div class="fitem">
 				<label>备注：</label> <input id="editRemark" type="text" name="remark">
+				
 			</div>
 
 
@@ -512,13 +541,21 @@
 			<br />
 			<div class="fitem">
 				<label>备注：</label> <input id="addRemark" type="text" name="remark">
+				<input type="hidden" name="status" value="0">
 			</div>
-
+			
 
 		</form>
 	</div>
 
-
+<script type="text/javascript">
+	$(function(){
+		$("#qqlianxi").click(function(){
+			var qqinput=$("#qq").val();
+			this.href='tencent://message/?uin='+qqinput+'&amp;Site=有事Q我&amp;Menu=yes';
+		});
+	});
+</script>
 
 </body>
 </html>
