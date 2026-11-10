@@ -1,0 +1,159 @@
+/* ============================================================
+   管理员登录页样式
+   匹配页面结构: h1 标题 / .login-form 登录框 / .copy-rights 页脚
+   ============================================================ */
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: linear-gradient(135deg, #1f2d3d 0%, #2c3e50 60%, #34495e 100%);
+	font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* 页面标题 */
+h1 {
+	text-align: center;
+	color: #fff;
+	font-size: 30px;
+	font-weight: 400;
+	letter-spacing: 2px;
+	padding: 56px 0 36px 0;
+	margin: 0;
+	text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* 登录框 */
+.login-form {
+	width: 360px;
+	margin: 0 auto 40px auto;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+	padding: 8px 0 26px 0;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+}
+
+/* 顶部彩色装饰条 */
+.login-form .head-info {
+	height: 10px;
+	margin-bottom: 6px;
+}
+
+.login-form .head-info .lbl-1,
+.login-form .head-info .lbl-2,
+.login-form .head-info .lbl-3 {
+	display: inline-block;
+	width: 33.33%;
+	height: 10px;
+	float: left;
+	margin: 0;
+}
+
+.login-form .head-info .lbl-1 { background: #2196f3; }
+.login-form .head-info .lbl-2 { background: #4caf50; }
+.login-form .head-info .lbl-3 { background: #ff9800; }
+
+/* 关闭按钮(无功能, 隐藏) */
+.login-form .close {
+	display: none;
+}
+
+/* 头像 */
+.login-form .avtar {
+	margin: 18px 0 10px 0;
+}
+
+.login-form .avtar img {
+	width: 92px;
+	height: 92px;
+	border-radius: 50%;
+	border: 4px solid #eef2f5;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+/* 输入框 */
+.login-form form {
+	width: 82%;
+	margin: 0 auto;
+}
+
+.login-form input.text,
+.login-form .key input {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 11px 14px;
+	margin: 10px 0 0 0;
+	font-size: 14px;
+	color: #333;
+	background: #f5f7fa;
+	border: 1px solid #dce3ea;
+	border-radius: 6px;
+	outline: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-form input.text:focus,
+.login-form .key input:focus {
+	border-color: #2196f3;
+	background: #fff;
+	box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+}
+
+/* 登录按钮 */
+.login-form .signin {
+	margin: 20px auto 0 auto;
+	width: 82%;
+}
+
+.login-form .signin input[type="submit"] {
+	width: 100%;
+	padding: 12px 0;
+	font-size: 16px;
+	font-family: inherit;
+	letter-spacing: 8px;
+	text-indent: 8px;
+	color: #fff;
+	background: #2196f3;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background 0.2s, box-shadow 0.2s;
+}
+
+.login-form .signin input[type="submit"]:hover {
+	background: #1e88e5;
+	box-shadow: 0 6px 16px rgba(33, 150, 243, 0.4);
+}
+
+.login-form .signin input[type="submit"]:active {
+	background: #1976d2;
+}
+
+/* 页脚 */
+.copy-rights {
+	text-align: center;
+	padding: 26px 0;
+}
+
+.copy-rights p {
+	margin: 0;
+	color: rgba(255, 255, 255, 0.55);
+	font-size: 13px;
+}
+
+.copy-rights a {
+	color: #64b5f6;
+	text-decoration: none;
+	margin-left: 6px;
+}
+
+.copy-rights a:hover {
+	text-decoration: underline;
+}
