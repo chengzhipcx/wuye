@@ -1,0 +1,53 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /
+    jsp:
+      init-parameters:
+        development: false
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3307/PropertyManagerDB?characterEncoding=UTF8&useSSL=false
+    username: root
+    password:
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 8
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        # 保持实体属性名与表列名一致(表结构沿用 PropertyManagerDB.sql)
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+
+  mvc:
+    pathmatch:
+      # Struts 风格 URL(含 ! 与 .action)使用 Ant 路径匹配
+      matching-strategy: ant_path_matcher
+    view:
+      prefix: /
+      suffix: .jsp
+
+  jackson:
+    default-property-inclusion: always
+
+  mail:
+    # 缴费通知邮件: 配置 host 后启用, 留空自动跳过
+    host: ""
+    port: 25
+    username:
+    password:
+
+app:
+  name: PropertyManagerSystem
+  mail:
+    # 发件人邮箱(需与邮箱服务商要求一致)
+    from:

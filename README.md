@@ -1,6 +1,8 @@
 # 小区物业管理系统
 
-基于 **SSH（Struts2 + Spring + Hibernate3）** 的小区物业管理系统，后台管理界面使用 EasyUI，业主前端使用 Bootstrap。
+基于 **Spring Boot 2.7（Spring MVC + Spring Data JPA + 内嵌 Tomcat）** 的小区物业管理系统，后台管理界面使用 EasyUI，业主前端使用 Bootstrap。
+
+> 原版为 SSH（Struts2 + Spring 3 + Hibernate3）架构，已整体迁移至 Spring Boot（遗留版本见 `ssh-legacy` 标签），前端页面与接口契约保持不变。
 
 原项目地址：<https://github.com/chengzhipcx/wuye>
 
@@ -30,9 +32,9 @@
 
 | 依赖 | 版本 | 说明 |
 |---|---|---|
-| JDK | 1.8 | 本机已装 `C:\Program Files\Java\jdk1.8.0_333` |
+| JDK | 1.8+ | 本机已装 `C:\Program Files\Java\jdk1.8.0_333` |
+| Maven | 3.9.x | 已安装 `D:\programspache-maven-3.9.11` |
 | MariaDB | 10.6.28 | 便携版，位于 `runtime/mariadb`，端口 **3307** |
-| Tomcat | 9.0.123 | 便携版，位于 `runtime/tomcat`，端口 **8088** |
 
 ### 一键启动
 
@@ -40,10 +42,14 @@
 # 1. 启动数据库（保持窗口开启）
 scripts\start-db.bat
 
-# 2. 构建并部署应用（需要 JDK 1.8 + Git Bash）
-bash scripts/build.sh     # 编译源码并打包 WAR
-bash scripts/deploy.sh    # 部署到 runtime/tomcat 并启动
-```
+# 2. 构建应用（Maven）
+bash scripts/build.sh     # 打包 target/wuye.war
+
+# 3. 启动应用（内嵌 Tomcat，保持窗口开启）
+scripts\start-app.bat     # 或 java -jar target/wuye.war
+
+# 停止应用
+scripts\stop-app.bat
 
 启动完成后访问：
 
@@ -84,22 +90,23 @@ runtime/mariadb/bin/mariadb.exe -u root -P 3307 --default-character-set=utf8 Pro
 ## 项目结构
 
 ```
-├── src/                      # Java 源码 + Spring/Struts 配置
-│   ├── com/onlymvp/
-│   │   ├── action/           # Struts2 控制器(注解式, JSON 输出)
-│   │   ├── dao/              # DAO 接口与 Hibernate 实现
-│   │   ├── service/          # 业务层
-│   │   ├── entity/           # Hibernate 注解实体
-│   │   ├── dto/              # 多表联查数据传输对象
-│   │   ├── interceptor/      # 管理员拦截器
-│   │   └── filter/           # 统一认证过滤器(本次新增)
-│   ├── applicationContext.xml / struts.xml / db.properties / mail.properties
-├── WebContent/               # Web 资源(JSP/EasyUI/Bootstrap/库文件)
-│   └── WEB-INF/lib/          # 依赖 jar(含补充的 mail/connector)
+├── pom.xml                   # Maven 构建(Spring Boot 2.7.18, 可执行 WAR)
+├── src/main/java/com/onlymvp/
+│   ├── WuyeApplication.java  # 启动类
+│   ├── controller/           # Spring MVC 控制器(沿用原 action!method.action URL)
+│   ├── service/              # 业务层
+│   ├── repository/           # Spring Data JPA 数据访问
+│   ├── entity/               # JPA 实体(沿用原表结构)
+│   ├── dto/                  # 多表联查数据传输对象
+│   ├── filter/               # 统一认证过滤器
+│   └── tool/                 # 常量/工具类
+├── src/main/resources/
+│   └── application.yml       # 配置(数据源/JPA/JSP/邮件)
+├── src/main/webapp/          # JSP 页面与静态资源(EasyUI/Bootstrap)
 ├── 程序说明/                  # 数据库脚本 PropertyManagerDB.sql(已修复补全)
-├── scripts/                  # 构建与部署脚本(build.sh / deploy.sh / start-db.bat)
-├── runtime/                  # 本地运行时(便携 Tomcat/MariaDB, 不入库)
-└── build/                    # 构建产物(不入库)
+├── scripts/                  # 构建与启停脚本(build.sh / start-app.bat / start-db.bat)
+├── runtime/                  # 本地便携 MariaDB(不入库)
+└── target/                   # 构建产物(不入库)
 ```
 
 ## 本次完善内容
@@ -129,7 +136,7 @@ runtime/mariadb/bin/mariadb.exe -u root -P 3307 --default-character-set=utf8 Pro
 - **新增统一认证过滤器 `AuthFilter`**：原项目所有后台页面与数据接口均无登录校验（`AdminInterceptor` 逻辑写反且未注册），任何人可直接调 `charge!list.action` 拿全部数据。现在：后台资源要求管理员会话、业主页面要求业主会话、其余接口要求任一已登录身份，登录/登出与静态资源放行。
 - 修正 `AdminInterceptor` 反向逻辑（未登录放行、登录反而拦截）。
 - `struts.devMode` 关闭（不再向前端泄露堆栈）。
-- MySQL 驱动由 5.0.8 升级到 5.1.49（兼容 MariaDB 10.6 与更高版本 MySQL）。
+- 数据库驱动切换为 MariaDB 官方驱动（兼容原 MySQL 5.7 数据）。
 
 ### 工程化
 
@@ -143,6 +150,20 @@ runtime/mariadb/bin/mariadb.exe -u root -P 3307 --default-character-set=utf8 Pro
 - 部分模糊查询使用 HQL 字符串拼接，存在注入风险，建议后续参数化。
 - 邮件通知需在 `src/mail.properties` 配置 SMTP 后生效。
 - 若 3306/8088 端口被占用，请修改 `scripts/start-db.bat`、`runtime/tomcat/conf/server.xml` 与 `src/db.properties`。
+
+## Spring Boot 迁移说明
+
+2026 年后端整体由 SSH 迁移至 Spring Boot 2.7.18（迁移前的完整 SSH 版本保留在 `ssh-legacy` 标签）：
+
+| 原 SSH 组件 | 现实现 |
+|---|---|
+| Struts2 Action（注解 + DMI 路由） | Spring MVC `@RestController`，URL 保持 `action!method.action` 风格 |
+| Hibernate 3 + HibernateTemplate DAO | Spring Data JPA Repository（`@Query` 构造器投影复刻三表联查） |
+| OutTool(net.sf.json) 手写 JSON 输出 | Jackson 序列化，**响应结构逐字段保持一致**（含 `admin!login` 的 `messageInfoEntity` 包装） |
+| JSP 视图(内嵌 Tomcat 部署) | 内嵌 Tomcat + tomcat-embed-jasper，`java -jar` 直接运行 |
+| 独立 Tomcat 9 + WAR 部署 | 可执行 WAR，`scripts/start-app.bat` 一键启动 |
+
+迁移兼容性验证：冒烟测试 23/23 通过（登录契约、EasyUI 分页 `{total,rows}`、三表联查列表、会话权限隔离、JSP 页面渲染），前后端零改动对接。
 
 ## 关于作者
 
