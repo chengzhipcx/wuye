@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.naming.factory.SendMailFactory;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -19,7 +18,6 @@ import com.onlymvp.entity.MessageInfoEntity;
 import com.onlymvp.entity.UserInfoEntity;
 import com.onlymvp.service.UserInfoService;
 import com.onlymvp.tool.Const;
-import com.onlymvp.tool.MailUtils;
 import com.onlymvp.tool.OutTool;
 import com.onlymvp.tool.SendMail;
 import com.onlymvp.tool.StringTool;

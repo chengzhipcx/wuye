@@ -12,3 +12,9 @@ out/
 .sass-cache/
 .DS_Store
 node_modules
+
+# 本地运行时环境与构建产物(见 scripts/build.sh 可随时重新构建)
+build/
+runtime/
+*.war
+*.log

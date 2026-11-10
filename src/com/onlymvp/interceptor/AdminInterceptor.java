@@ -15,20 +15,17 @@ public class AdminInterceptor extends AbstractInterceptor {
 
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
-		
-		System.out.println("---进入拦截器---");
-		
+
 		Map<String, Object> session = invocation.getInvocationContext().getSession();
-		
+
 		AdminInfoEntity entity = (AdminInfoEntity) session.get(Const.SESSION_ADMIN_BEAN);
-		
-		
-		if(StringTool.isObjectNull(entity))
-			return invocation.invoke();
-		
-		
-		
-		return "error";
+
+		if (StringTool.isObjectNull(entity)) {
+			// 未登录,返回到登录页
+			return "error";
+		}
+
+		return invocation.invoke();
 	}
 
 }

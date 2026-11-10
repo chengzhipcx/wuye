@@ -3,6 +3,17 @@
   <display-name>PropertyManagerSystem</display-name>
   
   
+<!-- 统一认证过滤器(登录校验) -->
+ <filter>
+ 	<filter-name>authFilter</filter-name>
+ 	<filter-class>com.onlymvp.filter.AuthFilter</filter-class>
+ </filter>
+
+ <filter-mapping>
+ 	<filter-name>authFilter</filter-name>
+ 	<url-pattern>/*</url-pattern>
+ </filter-mapping>
+
 <!-- 加载spring配置文件 -->
  <context-param>
        <param-name>contextConfigLocation</param-name>
@@ -24,10 +35,10 @@
  		org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
  	</filter-class>
  	<init-param>
-              <!--  //固定格式-->
-                <param-name>actionPackages</param-name> 
-                <param-value>com.onlymvp.action.manager</param-value> 
-    </init-param> 
+                <!-- convention 插件扫描的 action 包（原值 com.onlymvp.action.manager 包已不存在，导致注解 action 无法注册） -->
+                <param-name>actionPackages</param-name>
+                <param-value>com.onlymvp.action</param-value>
+    </init-param>
   </filter>
   
   <filter-mapping>
